@@ -1,0 +1,24 @@
+{
+  "name": "avalanche-staking-chain",
+  "version": "1.0.0",
+  "description": "Custom Avalanche L1 blockchain with integrated staking and lending functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js",
+    "node": "hardhat node"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@openzeppelin/contracts": "^5.4.0",
+    "chai": "^4.3.7",
+    "ethers": "^6.8.0",
+    "hardhat": "^2.19.0"
+  },
+  "dependencies": {
+    "@aave/core-v3": "^1.19.3",
+    "@bgd-labs/aave-address-book": "^4.26.2",
+    "dotenv": "^17.2.1"
+  }
+}
