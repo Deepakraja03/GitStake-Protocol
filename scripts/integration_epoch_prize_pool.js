@@ -14,7 +14,7 @@ function readFromDeploymentsFallback() {
   try {
     const file = fs.readFileSync(path.join(process.cwd(), "DEPLOYMENTS.md"), "utf8");
     const poolMatch = file.match(/EpochPrizePool:\s*`([^`]+)`/);
-    const aaveMatch = file.match(/AaveIntegration:\s*`([^`]+)`/);
+    const aaveMatch = file.match(/RealAaveIntegration:\s*`([^`]+)`/);
     return {
       pool: poolMatch ? poolMatch[1] : undefined,
       aave: aaveMatch ? aaveMatch[1] : undefined,
@@ -76,7 +76,7 @@ async function main() {
   const [caller] = await ethers.getSigners();
   console.log("Caller:", caller.address, explorer ? linkAddress(explorer, caller.address) : "");
   console.log("EpochPrizePool:", POOL_ADDR, explorer ? linkAddress(explorer, POOL_ADDR) : "");
-  console.log("AaveIntegration:", AAVE_ADDR, explorer ? linkAddress(explorer, AAVE_ADDR) : "");
+  console.log("RealAaveIntegration:", AAVE_ADDR, explorer ? linkAddress(explorer, AAVE_ADDR) : "");
 
   // STEP 1: Deposit AVAX to the current epoch
   console.log("\n[STEP 1] Deposit");
