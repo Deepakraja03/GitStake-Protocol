@@ -113,7 +113,14 @@ npx hardhat run scripts/deploy.js --network avalanche_l1
 
 ## Deployed Addresses
 
-- Avalanche Fuji (43113)
+### Latest Deployment - Avalanche Fuji (43113) - Updated with bgd-labs/aave-address-book
+  - RealAaveIntegration: 0xe9782b8942D563210C7a36F2B309939A8ae08509
+  - StakingContract: 0xDedd1411952ec1FE6d8102fabC98DD8982B8196d
+  - RewardDistribution: 0xa76C8826bf40632836cC00A23dEdF02dd920DadF
+  - EpochPrizePool: 0xbE7BC82d2E16b3d139C96A26a8Ac3d61ce290694
+  - MockAaveIntegration: 0x97237cF4B21B185Aa181fc69249B5B49630ab74c
+
+### Previous Deployment - Avalanche Fuji (43113)
   - RealAaveIntegration: 0x1AE62F9146C772d3224636425ADD287e12fc92e8
   - StakingContract: 0x4b02E32b57C65352d9bBA68a110E2F80B208aFec
   - RewardDistribution: 0x3b8044e6ECF1e4C5a529B194c1305b157a68e92B
