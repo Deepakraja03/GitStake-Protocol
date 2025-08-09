@@ -1,103 +1,128 @@
-# Avalanche Staking Chain L1
+# GitStake Protocol
 
-A custom Avalanche L1 blockchain with integrated staking and lending functionality. This system allows users to stake AVAX tokens, integrates with Aave lending pools for yield generation, and distributes rewards based on accrued interest.
+A decentralized staking and prize distribution protocol built on Avalanche Fuji testnet. The protocol allows users to stake AVAX, earn yield through Aave v3 integration, and win prizes based on staking performance and random selection.
 
 ## Features
 
-- Custom Avalanche L1 blockchain with EVM compatibility
-- Core staking contract with position tracking
-- Flexible lock periods and minimum stake amounts
-- Emergency unstaking with penalty mechanism
-- Comprehensive access controls and security features
+- **Epoch-based Staking**: Fixed-duration staking periods with automatic yield generation
+- **Aave v3 Integration**: Native AVAX deposits/withdrawals through WAVAX gateway
+- **Prize Distribution**: Top stakers win prizes based on exponential rank weighting
+- **Decentralized**: No admin control over prize distribution after deployment
+- **Gas Efficient**: Optimized for minimal transaction costs
+- **Secure**: Built with OpenZeppelin libraries and comprehensive testing
 
 ## Project Structure
 
 ```
 ├── contracts/
-│   └── StakingContract.sol      # Core staking contract
+│   ├── EpochPrizePool.sol       # Core prize pool contract
+│   ├── RealAaveIntegration.sol  # Aave v3 integration
+│   └── interfaces/              # Contract interfaces
 ├── test/
-│   └── StakingContract.test.js  # Comprehensive unit tests
+│   ├── EpochPrizePool.test.js   # Unit tests
+│   └── integration/             # Integration tests
 ├── scripts/
-│   └── deploy.js                # Deployment script
-├── genesis.json                 # Genesis configuration for L1
-├── avalanche-l1-config.json     # L1 blockchain configuration
-└── hardhat.config.js            # Hardhat configuration
+│   ├── integration_epoch_prize_pool.js  # Main integration script
+│   ├── check_current_aave.js    # Check current Aave integration
+│   └── switch_to_real_aave.js   # Switch to RealAaveIntegration
+├── .env.example                # Environment variables template
+├── hardhat.config.js           # Hardhat configuration
+└── CONTRACT_REFERENCE.md       # Detailed contract documentation
 ```
 
-## Setup Instructions
+## Quick Start
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
+- Node.js (v18 or higher)
 - npm or yarn
-- Avalanche CLI (for L1 deployment)
+- Hardhat
+- Fuji testnet AVAX (from [faucet](https://faucet.avax.network/))
 
 ### Installation
 
-1. Install dependencies:
+1. Clone the repository and install dependencies:
 ```bash
+git clone <repository-url>
+cd GitStakeProtocol-Contract
 npm install
 ```
 
-2. Compile contracts:
+2. Copy `.env.example` to `.env` and update with your configuration:
+```bash
+cp .env.example .env
+# Edit .env with your private key and contract addresses
+```
+
+3. Compile contracts:
 ```bash
 npx hardhat compile
 ```
 
-3. Run tests:
+## Usage
+
+### Running the Integration Test
+
+1. Make sure you have configured your `.env` file with:
+   - `PRIVATE_KEY` - Your wallet private key
+   - `FUJI_RPC_URL` - Fuji testnet RPC URL
+   - `WINNER_SIGNER_PK` - Private key for signing winners (can be same as PRIVATE_KEY)
+   - `WINNERS_CSV` - Comma-separated list of winner addresses (optional)
+
+2. Run the integration script:
+```bash
+npx hardhat run scripts/integration_epoch_prize_pool.js --network fuji
+```
+
+### Checking Current Aave Integration
+
+To verify which Aave integration is currently configured:
+```bash
+npx hardhat run scripts/check_current_aave.js --network fuji
+```
+
+### Switching to RealAaveIntegration
+
+If needed, switch the pool to use the RealAaveIntegration:
+```bash
+npx hardhat run scripts/switch_to_real_aave.js --network fuji
+```
+
+## Contract Documentation
+
+For detailed documentation on contract functions, parameters, and integration flow, see:
+
+- [CONTRACT_REFERENCE.md](./CONTRACT_REFERENCE.md) - Comprehensive contract reference
+- [DEPLOYMENTS.md](./DEPLOYMENTS.md) - Deployed contract addresses
+- [INTEGRATION_VERIFICATION.md](./INTEGRATION_VERIFICATION.md) - Integration verification status
+
+## Development
+
+### Testing
+
+Run the test suite:
 ```bash
 npx hardhat test
 ```
 
-## L1 Blockchain Configuration
+### Deploying
 
-The custom L1 blockchain is configured with:
-- **Chain ID**: 43112
-- **Block Time**: 2 seconds
-- **Gas Limit**: 15,000,000 per block
-- **EVM Compatibility**: Full Ethereum compatibility
-- **Optimized Parameters**: For staking operations
-
-## Staking Contract Features
-
-### Core Functionality
-- **Stake AVAX**: Users can stake AVAX tokens with flexible lock periods
-- **Position Tracking**: Each stake creates a unique position with ID
-- **Lock Periods**: Configurable minimum and maximum lock periods
-- **Unstaking**: Users can unstake after lock period expires
-- **Emergency Unstaking**: Early unstaking with 10% penalty
-
-### Security Features
-- **ReentrancyGuard**: Protection against reentrancy attacks
-- **Pausable**: Emergency pause functionality
-- **Access Control**: Owner-only administrative functions
-- **Input Validation**: Comprehensive parameter validation
-
-### Data Structures
-
-```solidity
-struct StakingPosition {
-    uint256 id;
-    address staker;
-    uint256 amount;
-    uint256 startTime;
-    uint256 lockPeriod;
-    uint256 lastRewardClaim;
-    bool active;
-}
+1. Update `scripts/deploy.js` if needed
+2. Run the deployment script:
+```bash
+npx hardhat run scripts/deploy.js --network fuji
 ```
 
-## Deployment
+## Security
 
-### Local Development
+- Contracts are non-upgradeable for maximum transparency
+- All external calls use checks-effects-interactions pattern
+- Reentrancy protection on all state-changing functions
+- Comprehensive test coverage
 
-1. Start local Hardhat network:
-```bash
-npx hardhat node
-```
+## License
 
-2. Deploy contracts:
-```bash
+MIT
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
